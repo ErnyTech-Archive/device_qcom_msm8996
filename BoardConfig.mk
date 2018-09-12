@@ -36,6 +36,7 @@ USE_CAMERA_STUB := true
 #USE_CLANG_PLATFORM_BUILD := true
 
 -include $(QCPATH)/common/msm8996/BoardConfigVendor.mk
+include device/qcom/msm8996/BoardConfigVendor.mk
 
 # Some framework code requires this to enable BT
 BOARD_HAVE_BLUETOOTH := true
