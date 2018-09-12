@@ -10,16 +10,10 @@ endif
 DEVICE_PACKAGE_OVERLAYS := device/qcom/msm8996/overlay
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
-# Default vendor configuration.
-# ifeq ($(ENABLE_VENDOR_IMAGE),)
-# ENABLE_VENDOR_IMAGE := true
-# endif
-
 #treble
 ENABLE_VENDOR_IMAGE := true
-
-# Default A/B configuration.
-ENABLE_AB ?= false
+PRODUCT_FULL_TREBLE_OVERRIDE := true
+PRODUCT_VENDOR_MOVE_ENABLED := true
 
 # Disable QTIC until it's brought up in split system/vendor
 # configuration to avoid compilation breakage.
@@ -64,11 +58,8 @@ endif  #TARGET_ENABLE_QC_AV_ENHANCEMENTS
 
 PRODUCT_COPY_FILES += device/qcom/msm8996/whitelistedapps.xml:system/etc/whitelistedapps.xml \
                       device/qcom/msm8996/gamedwhitelist.xml:system/etc/gamedwhitelist.xml
+                      
 
-# Power
-PRODUCT_PACKAGES += \
-    android.hardware.power@1.0-service \
-    android.hardware.power@1.0-impl
 
 # Override heap growth limit due to high display density on device
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -128,16 +119,23 @@ PRODUCT_COPY_FILES += \
 # MIDI feature
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
+    
+# # # # # # # # # # # # # # # # # # PRODUCT_PACKAGES SECTION # # # # # # # # # # # # # # # # # # # # # #
 
+# Power
+PRODUCT_PACKAGES += \
+    android.hardware.power@1.0-service \
+    android.hardware.power@1.0-impl
+    
 PRODUCT_PACKAGES += \
     wpa_supplicant_overlay.conf \
     p2p_supplicant_overlay.conf
-
 
 #for wlan
 PRODUCT_PACKAGES += \
     wificond \
     wifilogd
+    
 ifneq ($(WLAN_CHIPSET),)
 PRODUCT_PACKAGES += $(WLAN_CHIPSET)_wlan.ko
 endif
@@ -171,6 +169,65 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.0-impl \
     android.hardware.vibrator@1.0-service \
+    
+# Camera configuration file. Shared by passthrough/binderized camera HAL
+PRODUCT_PACKAGES += camera.device@3.2-impl
+PRODUCT_PACKAGES += camera.device@1.0-impl
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
+# Enable binderized camera HAL
+PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
+
+#Healthd packages
+PRODUCT_PACKAGES += android.hardware.health@2.0-impl \
+                   android.hardware.health@2.0-service \
+                   libhealthd.msm
+
+PRODUCT_PACKAGES += \
+    libandroid_net \
+    libandroid_net_32
+    
+#Thermal
+PRODUCT_PACKAGES += android.hardware.thermal@1.0-impl \
+                    android.hardware.thermal@1.0-service
+                    
+#for fingerprint
+PRODUCT_PACKAGES += \
+     android.hardware.gatekeeper@1.0-impl \
+     android.hardware.gatekeeper@1.0-service \
+     android.hardware.biometrics.fingerprint@2.1-service
+
+#for android_filesystem_config.h
+PRODUCT_PACKAGES += \
+    fs_config_files
+    
+# Enable extra vendor libs
+ENABLE_EXTRA_VENDOR_LIBS := true
+PRODUCT_PACKAGES += vendor-extra-libs
+
+PRODUCT_PACKAGES += dashd
+
+#Enable Lights Impl HAL Compilation
+PRODUCT_PACKAGES += android.hardware.light@2.0-impl
+
+
+#set KMGK_USE_QTI_SERVICE to true to enable QTI KEYMASTER and GATEKEEPER HIDLs
+ifeq ($(ENABLE_VENDOR_IMAGE), true)
+KMGK_USE_QTI_SERVICE := true
+endif
+
+#Enable AOSP KEYMASTER and GATEKEEPER HIDLs
+ifneq ($(KMGK_USE_QTI_SERVICE), true)
+PRODUCT_PACKAGES += android.hardware.gatekeeper@1.0-impl \
+                    android.hardware.gatekeeper@1.0-service \
+                    android.hardware.keymaster@3.0-impl \
+                    android.hardware.keymaster@3.0-service
+endif
+
+#VR
+PRODUCT_PACKAGES += android.hardware.vr@1.0-impl \
+                    android.hardware.vr@1.0-service
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 
 # Sensor HAL conf file
 PRODUCT_COPY_FILES += \
@@ -179,13 +236,6 @@ PRODUCT_COPY_FILES += \
 # VB xml
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.verified_boot.xml:system/etc/permissions/android.software.verified_boot.xml
-
-# Camera configuration file. Shared by passthrough/binderized camera HAL
-PRODUCT_PACKAGES += camera.device@3.2-impl
-PRODUCT_PACKAGES += camera.device@1.0-impl
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-impl
-# Enable binderized camera HAL
-PRODUCT_PACKAGES += android.hardware.camera.provider@2.4-service
 
 # Sensor features
 PRODUCT_COPY_FILES += \
@@ -201,19 +251,13 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.relative_humidity.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.relative_humidity.xml \
     frameworks/native/data/etc/android.hardware.sensor.hifi_sensors.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.sensor.hifi_sensors.xml
 
-# dm-verity configuration
-# PRODUCT_SUPPORTS_VERITY := true
-# PRODUCT_SYSTEM_VERITY_PARTITION := /dev/block/bootdevice/by-name/system
-# ifeq ($(ENABLE_VENDOR_IMAGE), true)
-# PRODUCT_VENDOR_VERITY_PARTITION := /dev/block/bootdevice/by-name/vendor
-# endif
 
 #FEATURE_OPENGLES_EXTENSION_PACK support string config file
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.opengles.aep.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.opengles.aep.xml
 
 # High performance VR feature
-#PRODUCT_COPY_FILES += \
+PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.vr.high_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vr.high_performance.xml
 
 # MSM IRQ Balancer configuration file
@@ -230,22 +274,6 @@ PRODUCT_AAPT_CONFIG += xlarge large
 PRODUCT_COPY_FILES += \
 device/qcom/msm8996/powerhint.xml:system/etc/powerhint.xml
 
-#Healthd packages
-PRODUCT_PACKAGES += android.hardware.health@2.0-impl \
-                   android.hardware.health@2.0-service \
-                   libhealthd.msm
-
-PRODUCT_FULL_TREBLE_OVERRIDE := true
-
-PRODUCT_VENDOR_MOVE_ENABLED := true
-
-#for android_filesystem_config.h
-PRODUCT_PACKAGES += \
-    fs_config_files
-
-# Add the overlay path
-#PRODUCT_PACKAGE_OVERLAYS := $(QCPATH)/qrdplus/Extension/res \
-        $(PRODUCT_PACKAGE_OVERLAYS)
 
 # Enable logdumpd service only for non-perf bootimage
 ifeq ($(findstring perf,$(KERNEL_DEFCONFIG)),)
@@ -261,32 +289,7 @@ else
         ro.logdumpd.enabled=0
 endif
 
-#-include $(QCPATH)/common/config/rendering-engine.mk
-#ifneq (,$(strip $(wildcard $(PRODUCT_RENDERING_ENGINE_REVLIB))))
-#        MULTI_LANG_ENGINE := REVERIE
-#endif
-
-PRODUCT_PACKAGES += \
-    libandroid_net \
-    libandroid_net_32
-
-#Enable Lights Impl HAL Compilation
-PRODUCT_PACKAGES += android.hardware.light@2.0-impl
-
 TARGET_SUPPORT_SOTER := true
-
-#set KMGK_USE_QTI_SERVICE to true to enable QTI KEYMASTER and GATEKEEPER HIDLs
-ifeq ($(ENABLE_VENDOR_IMAGE), true)
-KMGK_USE_QTI_SERVICE := true
-endif
-
-#Enable AOSP KEYMASTER and GATEKEEPER HIDLs
-ifneq ($(KMGK_USE_QTI_SERVICE), true)
-PRODUCT_PACKAGES += android.hardware.gatekeeper@1.0-impl \
-                    android.hardware.gatekeeper@1.0-service \
-                    android.hardware.keymaster@3.0-impl \
-                    android.hardware.keymaster@3.0-service
-endif
 
 # Defined the locales
 PRODUCT_LOCALES += th_TH vi_VN tl_PH hi_IN ar_EG ru_RU tr_TR pt_BR bn_IN mr_IN ta_IN te_IN zh_HK \
@@ -294,18 +297,6 @@ PRODUCT_LOCALES += th_TH vi_VN tl_PH hi_IN ar_EG ru_RU tr_TR pt_BR bn_IN mr_IN t
 
 PRODUCT_PROPERTY_OVERRIDES += rild.libpath=/system/vendor/lib64/libril-qc-qmi-1.so
 
-ifeq ($(ENABLE_AB),true)
-#A/B related packages
-PRODUCT_PACKAGES += update_engine \
-                   update_engine_client \
-                   update_verifier \
-                   bootctrl.msm8996 \
-                   brillo_update_payload \
-                   android.hardware.boot@1.0-impl \
-                   android.hardware.boot@1.0-service
-#Boot control HAL test app
-PRODUCT_PACKAGES_DEBUG += bootctl
-endif
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
 
@@ -324,22 +315,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.bluetooth.wipower=true \
     ro.vendor.bluetooth.wipower=true
 
-#Thermal
-PRODUCT_PACKAGES += android.hardware.thermal@1.0-impl \
-                    android.hardware.thermal@1.0-service
 
 SDM660_DISABLE_MODULE := true
 
-# Enable extra vendor libs
-ENABLE_EXTRA_VENDOR_LIBS := true
-PRODUCT_PACKAGES += vendor-extra-libs
 
-PRODUCT_PACKAGES += dashd
-#for fingerprint
-PRODUCT_PACKAGES += \
-     android.hardware.gatekeeper@1.0-impl \
-     android.hardware.gatekeeper@1.0-service \
-     android.hardware.biometrics.fingerprint@2.1-service
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
     frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml \
