@@ -55,7 +55,7 @@ TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 USE_OPENGL_RENDERER := true
 BOARD_USE_LEGACY_UI := true
-BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/egl.cfg
+BOARD_EGL_CFG := device/qcom/$(TARGET_BOARD_PLATFORM)/configs/egl.cfg
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 MAX_VIRTUAL_DISPLAY_DIMENSION := 4096
@@ -146,9 +146,9 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm
 
 #Recovery 
 ifeq ($(ENABLE_VENDOR_IMAGE), true)
-    TARGET_RECOVERY_FSTAB := device/qcom/msm8996/recovery_non-AB_split_variant.fstab
+    TARGET_RECOVERY_FSTAB := device/qcom/msm8996/recovery/recovery_non-AB_split_variant.fstab
   else
-    TARGET_RECOVERY_FSTAB := device/qcom/msm8996/recovery_non-AB_non-split_variant.fstab
+    TARGET_RECOVERY_FSTAB := device/qcom/msm8996/recovery/recovery_non-AB_non-split_variant.fstab
 endif
 
 #Wlan
