@@ -11,9 +11,12 @@ DEVICE_PACKAGE_OVERLAYS := device/qcom/msm8996/overlay
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
 # Default vendor configuration.
-ifeq ($(ENABLE_VENDOR_IMAGE),)
+# ifeq ($(ENABLE_VENDOR_IMAGE),)
+# ENABLE_VENDOR_IMAGE := true
+# endif
+
+#treble
 ENABLE_VENDOR_IMAGE := true
-endif
 
 # Default A/B configuration.
 ENABLE_AB ?= false

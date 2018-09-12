@@ -35,7 +35,7 @@ USE_CAMERA_STUB := true
 
 #USE_CLANG_PLATFORM_BUILD := true
 
--include $(QCPATH)/common/msm8996/BoardConfigVendor.mk
+# -include $(QCPATH)/common/msm8996/BoardConfigVendor.mk
 include device/qcom/msm8996/BoardConfigVendor.mk
 
 # Some framework code requires this to enable BT
@@ -50,24 +50,24 @@ NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x04000000
 
-ifeq ($(ENABLE_AB),true)
+# ifeq ($(ENABLE_AB),true)
 #A/B related defines
-AB_OTA_UPDATER := true
+# AB_OTA_UPDATER := true
 # Full A/B partiton update set
 # AB_OTA_PARTITIONS := xbl rpm tz hyp pmic modem abl boot keymaster cmnlib cmnlib64 system bluetooth
 # Subset A/B partitions for Android-only image update
-AB_OTA_PARTITIONS ?= boot system
-BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
-TARGET_NO_RECOVERY := true
-BOARD_USES_RECOVERY_AS_BOOT := true
-else
+# AB_OTA_PARTITIONS ?= boot system
+# BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
+# TARGET_NO_RECOVERY := true
+# BOARD_USES_RECOVERY_AS_BOOT := true
+# else
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x04000000
 BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 #TARGET_RECOVERY_UPDATER_LIBS += librecovery_updater_msm
 # Enable System As Root even for non-A/B from P onwards
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
-endif
+# endif
 
 ifeq ($(ENABLE_AB), true)
   ifeq ($(ENABLE_VENDOR_IMAGE),true)
@@ -109,9 +109,9 @@ endif
 
 ifeq ($(BOARD_KERNEL_CMDLINE),)
 ifeq ($(TARGET_KERNEL_VERSION),4.4)
-    BOARD_KERNEL_CMDLINE += console=ttyMSM0,115200,n8 androidboot.console=ttyMSM0 androidboot.usbconfigfs=true
+    BOARD_KERNEL_CMDLINE += console=ttyMSM0,115200,n8 androidboot.console=ttyMSM0 androidboot.usbconfigfs=true androidboot.selinux=permissive
 else
-    BOARD_KERNEL_CMDLINE += console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0
+    BOARD_KERNEL_CMDLINE += console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.selinux=permissive
 endif
 
 BOARD_KERNEL_CMDLINE += androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 cma=32M@0-0xffffffff firmware_class.path=/vendor/firmware_mnt/image loop.max_part=7
