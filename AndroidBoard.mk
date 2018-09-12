@@ -108,7 +108,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE       := wpa_supplicant_overlay.conf
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
-LOCAL_SRC_FILES    := $(LOCAL_MODULE)
+LOCAL_SRC_FILES    := wifi/wpa_supplicant_overlay.conf
 LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR)/etc/wifi
 include $(BUILD_PREBUILT)
 
@@ -116,7 +116,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE       := p2p_supplicant_overlay.conf
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
-LOCAL_SRC_FILES    := $(LOCAL_MODULE)
+LOCAL_SRC_FILES    := wifi/p2p_supplicant_overlay.conf
 LOCAL_MODULE_PATH  := $(TARGET_OUT_VENDOR)/etc/wifi
 include $(BUILD_PREBUILT)
 
@@ -125,7 +125,7 @@ LOCAL_MODULE       := hostapd_default.conf
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/hostapd
-LOCAL_SRC_FILES    := hostapd.conf
+LOCAL_SRC_FILES    := wifi/hostapd.conf
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
@@ -133,7 +133,7 @@ LOCAL_MODULE       := hostapd.accept
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/hostapd
-LOCAL_SRC_FILES    := hostapd.accept
+LOCAL_SRC_FILES    := wifi/hostapd.accept
 include $(BUILD_PREBUILT)
 
 include $(CLEAR_VARS)
@@ -141,7 +141,7 @@ LOCAL_MODULE       := hostapd.deny
 LOCAL_MODULE_TAGS  := optional
 LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/hostapd
-LOCAL_SRC_FILES    := hostapd.deny
+LOCAL_SRC_FILES    := wifi/hostapd.deny
 include $(BUILD_PREBUILT)
 
 # Create symbolic links for WLAN
