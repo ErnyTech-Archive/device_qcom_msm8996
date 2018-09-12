@@ -56,8 +56,8 @@ PRODUCT_COPY_FILES += \
     device/qcom/msm8996/media/media_codecs_vendor_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_vendor_audio.xml
 endif  #TARGET_ENABLE_QC_AV_ENHANCEMENTS
 
-PRODUCT_COPY_FILES += device/qcom/msm8996/whitelistedapps.xml:system/etc/whitelistedapps.xml \
-                      device/qcom/msm8996/gamedwhitelist.xml:system/etc/gamedwhitelist.xml
+PRODUCT_COPY_FILES += device/qcom/msm8996/etc/whitelistedapps.xml:system/etc/whitelistedapps.xml \
+                      device/qcom/msm8996/etc/gamedwhitelist.xml:system/etc/gamedwhitelist.xml
                       
 
 
