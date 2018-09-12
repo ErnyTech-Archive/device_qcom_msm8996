@@ -61,6 +61,10 @@ on post-fs-data
     mkdir /data/usf 0700 system system
     mkdir /data/misc/tloc/ 0700 system drmrpc
     mkdir /data/misc/audio_pp 0771 media audio
+    mkdir /data/fpc_images 0770 system system
+    mkdir /data/fpc_images/verify 0770 system system
+    mkdir /data/fpc_images/enroll 0770 system system
+    mkdir /data/fpc 0770 system system
 
    # Add a cpuset for the camera daemon
    # We want all cores for camera
@@ -80,6 +84,18 @@ on property:init.svc.bootanim=running
 on boot
     start rmt_storage
     start rfs_access
+    
+    chmod 0664 /sys/devices/soc/soc:fpc_fpc1020/irq
+    chown system system /sys/devices/soc/soc:fpc_fpc1020/irq
+    chmod 0660 /sys/devices/soc/soc:fpc_fpc1020/report_home
+    chown system system /sys/devices/soc/soc:fpc_fpc1020/report_home
+    chmod 0660 /sys/devices/soc/soc:fpc_fpc1020/update_info
+    chown system system /sys/devices/soc/soc:fpc_fpc1020/update_info
+    chmod 0660 /sys/devices/soc/soc:fpc_fpc1020/screen_state
+    chown system system /sys/devices/soc/soc:fpc_fpc1020/screen_state
+    chmod 0660 /sys/devices/soc/soc:fpc_fpc1020/hw_reset
+    chown system system /sys/devices/soc/soc:fpc_fpc1020/hw_reset
+    
 # access permission for secure touch
     chmod 0660 /sys/devices/soc/75ba000.i2c/i2c-12/12-004a/secure_touch_enable
     chmod 0440 /sys/devices/soc/75ba000.i2c/i2c-12/12-004a/secure_touch
@@ -87,6 +103,12 @@ on boot
     chown system drmrpc /sys/devices/soc/75ba000.i2c/i2c-12/12-004a/secure_touch
     write /proc/sys/kernel/sched_boost 1
     write /sys/devices/soc/75ba000.i2c/i2c-12/12-0020/input/input0/update_fw 1
+    
+#NFC, ruanbanmao add for 15801 nfc. 2015/10/19
+    setprop ro.nfc.port "I2C"
+    chmod 0666 /dev/pn544
+    chown nfc nfc /dev/pn544
+    setprop persist.vendor.camera.eis.enable 0
 
 #USB controller configuration
     write /sys/module/g_android/parameters/mtp_tx_req_len 131072
@@ -100,20 +122,20 @@ service qcamerasvr /system/vendor/bin/mm-qcamera-daemon
     group camera system inet input graphics
 
 #fingerprint service
-service fingerprintd /system/vendor/bin/fingerprintd
+<!--service fingerprintd /system/vendor/bin/fingerprintd
     class late_start
     user system
-    group system
+    group system-->
 
 service qfp-daemon /system/vendor/bin/qfp-daemon
     class late_start
     user system
     group system drmrpc diag input
 
-service fps_hal /system/vendor/bin/fingerprint.qcom
+<!--service fps_hal /system/vendor/bin/fingerprint.qcom
     class late_start
     user system
-    group system input
+    group system input-->
 
 #Start up peripheral manager
 service per_mgr /vendor/bin/pm-service
@@ -127,6 +149,11 @@ service per_proxy /vendor/bin/pm-proxy
     user system
     group system
     disabled
+    
+service ifaadaemon /system/bin/ifaadaemon
+    class late_start
+    user system
+    group system
 
 on property:init.svc.per_mgr=running
     start per_proxy
