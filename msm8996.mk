@@ -95,13 +95,16 @@ PRODUCT_BOOT_JARS += telephony-ext
 
 PRODUCT_PACKAGES += telephony-ext
 
+PRODUCT_BOOT_JARS += qcnvitems
+PRODUCT_BOOT_JARS += qcrilhook
+
 ifneq ($(strip $(QCPATH)),)
-PRODUCT_BOOT_JARS += WfdCommon
+#PRODUCT_BOOT_JARS += WfdCommon
 #PRODUCT_BOOT_JARS += com.qti.dpmframework
 #PRODUCT_BOOT_JARS += dpmapi
 #PRODUCT_BOOT_JARS += com.qti.location.sdk
 #Android oem shutdown hook
-PRODUCT_BOOT_JARS += oem-services
+#PRODUCT_BOOT_JARS += oem-services
 endif
 
 DEVICE_MANIFEST_FILE := device/qcom/msm8996/manifest.xml
@@ -326,3 +329,16 @@ SDM660_DISABLE_MODULE := true
 # Enable extra vendor libs
 ENABLE_EXTRA_VENDOR_LIBS := true
 PRODUCT_PACKAGES += vendor-extra-libs
+
+PRODUCT_PACKAGES += dashd
+#for fingerprint
+PRODUCT_PACKAGES += \
+     android.hardware.gatekeeper@1.0-impl \
+     android.hardware.gatekeeper@1.0-service \
+     android.hardware.biometrics.fingerprint@2.1-service
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
+    frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml \
+    frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml
+$(call inherit-product-if-exists, vendor/oneplus/prebuilt.mk)
+$(call inherit-product-if-exists, device/qcom/msm8996/device-vendor.mk)
