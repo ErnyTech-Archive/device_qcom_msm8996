@@ -6,7 +6,7 @@ ifeq ($(TARGET_USES_AOSP),true)
 TARGET_DISABLE_DASH := true
 endif
 
-DEVICE_PACKAGE_OVERLAYS := device/qcom/msm8996/overlay
+DEVICE_PACKAGE_OVERLAYS := $(DEVICE_TREE)/overlay
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
 #treble
@@ -64,7 +64,7 @@ ifneq ($(strip $(QCPATH)),)
 endif
 
 # Configs
--include device/qcom/msm8996/configs/configs.mk
+-include $(DEVICE_TREE)/configs/configs.mk
 
 # Audio configuration file
 -include $(TOPDIR)hardware/qcom/audio/configs/msm8996/msm8996.mk

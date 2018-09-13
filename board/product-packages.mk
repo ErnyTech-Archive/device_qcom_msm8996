@@ -95,4 +95,4 @@ PRODUCT_PACKAGES += android.hardware.vr@1.0-impl \
 
 PRODUCT_PACKAGES += telephony-ext
 
--include device/qcom/msm8996/wifi/wifi.mk
+-include $(DEVICE_TREE)/wifi/wifi.mk
