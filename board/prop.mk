@@ -240,7 +240,7 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 
 # Add soft home, back and multitask keys
 PRODUCT_PROPERTY_OVERRIDES += \
-    qemu.hw.mainkeys=0
+	qemu.hw.mainkeys=0
 
 # system prop for opengles version
 #
@@ -248,31 +248,28 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # 196609 is decimal for 0x30001 to report version 3.1
 # 196610 is decimal for 0x30002 to report version 3.2
 PRODUCT_PROPERTY_OVERRIDES  += \
-    ro.opengles.version=196610
+	ro.opengles.version=196610
 
 # Enable logdumpd service only for non-perf bootimage
 ifeq ($(findstring perf,$(KERNEL_DEFCONFIG)),)
     ifeq ($(TARGET_BUILD_VARIANT),user)
         PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
-            ro.logdumpd.enabled=0
-    else
-        #PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
-            ro.logdumpd.enabled=1
+		ro.logdumpd.enabled=0
     endif
 else
     PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
-        ro.logdumpd.enabled=0
+	ro.logdumpd.enabled=0
 endif
 
 # system prop for Bluetooth SOC type
 PRODUCT_PROPERTY_OVERRIDES += \
-    vendor.qcom.bluetooth.soc=rome
+	vendor.qcom.bluetooth.soc=rome
 
 # Set this true as ROME which is programmed
 # as embedded wipower mode by deafult
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.bluetooth.emb_wp_mode=true \
-    ro.vendor.bluetooth.emb_wp_mode=true
+	ro.bluetooth.emb_wp_mode=true \
+	ro.vendor.bluetooth.emb_wp_mode=true
 
 # System prop for wipower support
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -281,9 +278,22 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Set build fingerprint
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BUILD_FINGERPRINT=OnePlus/OnePlus3/OnePlus3:8.0.0/OPR1.170623.032/1808161403:user/release-keys
+	BUILD_FINGERPRINT=OnePlus/OnePlus3/OnePlus3:8.0.0/OPR1.170623.032/1808161403:user/release-keys
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    camera.disable_zsl_mode=1
+	camera.disable_zsl_mode=1
 
-PRODUCT_PROPERTY_OVERRIDES += rild.libpath=/system/vendor/lib64/libril-qc-qmi-1.so
+PRODUCT_PROPERTY_OVERRIDES += \
+	rild.libpath=/system/vendor/lib64/libril-qc-qmi-1.so
+
+# Override heap growth limit due to high display density on device
+PRODUCT_PROPERTY_OVERRIDES += \
+	dalvik.vm.heapgrowthlimit=256m
+
+ifeq ($(strip $(TARGET_USES_GPQESE)),true)
+	PRODUCT_PROPERTY_OVERRIDES += \
+		persist.nfc.smartcard.config=SIM1,eSE1
+else
+	PRODUCT_PROPERTY_OVERRIDES += \
+		persist.nfc.smartcard.config=SIM1
+endif

@@ -4247,9 +4247,6 @@ GPQESE += libese
 GPQESE += libese_system
 GPQESE += libgpqese_system
 GPQESE += libgpqese
-PRODUCT_PROPERTY_OVERRIDES += persist.nfc.smartcard.config=SIM1,eSE1
-else
-PRODUCT_PROPERTY_OVERRIDES += persist.nfc.smartcard.config=SIM1
 endif
 endif
 
