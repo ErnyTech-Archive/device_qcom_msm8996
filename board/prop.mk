@@ -253,11 +253,11 @@ PRODUCT_PROPERTY_OVERRIDES  += \
 # Enable logdumpd service only for non-perf bootimage
 ifeq ($(findstring perf,$(KERNEL_DEFCONFIG)),)
     ifeq ($(TARGET_BUILD_VARIANT),user)
-        PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
+        PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 		ro.logdumpd.enabled=0
     endif
 else
-    PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
+    PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 	ro.logdumpd.enabled=0
 endif
 
@@ -290,6 +290,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.heapgrowthlimit=256m
 
+#GPQESE
 ifeq ($(strip $(TARGET_USES_GPQESE)),true)
 	PRODUCT_PROPERTY_OVERRIDES += \
 		persist.nfc.smartcard.config=SIM1,eSE1
