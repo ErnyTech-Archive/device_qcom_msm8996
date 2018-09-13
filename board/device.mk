@@ -28,10 +28,6 @@ TARGET_KERNEL_VERSION := 4.19
 #QTIC flag
 -include $(QCPATH)/common/config/qtic-config.mk
 
-# Add soft home, back and multitask keys
-PRODUCT_PROPERTY_OVERRIDES += \
-    qemu.hw.mainkeys=0
-
 ifneq ($(TARGET_DISABLE_DASH), true)
     PRODUCT_BOOT_JARS += qcmediaplayer
 endif
@@ -51,15 +47,6 @@ $(call inherit-product, device/qcom/common/common64.mk)
 
 #msm8996 platform WLAN Chipset
 WLAN_CHIPSET := qca_cld
-
-
-# system prop for opengles version
-#
-# 196608 is decimal for 0x30000 to report version 3
-# 196609 is decimal for 0x30001 to report version 3.1
-# 196610 is decimal for 0x30002 to report version 3.2
-PRODUCT_PROPERTY_OVERRIDES  += \
-    ro.opengles.version=196610
 
 PRODUCT_BOOT_JARS += tcmiface
 PRODUCT_BOOT_JARS += telephony-ext
@@ -89,21 +76,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # List of AAPT configurations
 PRODUCT_AAPT_CONFIG += xlarge large
 
-
-# Enable logdumpd service only for non-perf bootimage
-ifeq ($(findstring perf,$(KERNEL_DEFCONFIG)),)
-    ifeq ($(TARGET_BUILD_VARIANT),user)
-        PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
-            ro.logdumpd.enabled=0
-    else
-        #PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
-            ro.logdumpd.enabled=1
-    endif
-else
-    PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
-        ro.logdumpd.enabled=0
-endif
-
 TARGET_SUPPORT_SOTER := true
 
 # Defined the locales
@@ -113,21 +85,6 @@ PRODUCT_LOCALES += th_TH vi_VN tl_PH hi_IN ar_EG ru_RU tr_TR pt_BR bn_IN mr_IN t
 PRODUCT_PROPERTY_OVERRIDES += rild.libpath=/system/vendor/lib64/libril-qc-qmi-1.so
 
 TARGET_MOUNT_POINTS_SYMLINKS := false
-
-# system prop for Bluetooth SOC type
-PRODUCT_PROPERTY_OVERRIDES += \
-    vendor.qcom.bluetooth.soc=rome
-
-# Set this true as ROME which is programmed
-# as embedded wipower mode by deafult
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.bluetooth.emb_wp_mode=true \
-    ro.vendor.bluetooth.emb_wp_mode=true
-
-#system prop for wipower support
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.bluetooth.wipower=true \
-    ro.vendor.bluetooth.wipower=true
 
 SDM660_DISABLE_MODULE := true
  
