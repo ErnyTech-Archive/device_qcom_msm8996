@@ -24,7 +24,7 @@ endif
 TARGET_USES_NQ_NFC := false # bring-up hack
 BOARD_FRP_PARTITION_NAME :=frp
 
-TARGET_KERNEL_VERSION := 3.18
+TARGET_KERNEL_VERSION := 4.19
 
 #QTIC flag
 -include $(QCPATH)/common/config/qtic-config.mk
