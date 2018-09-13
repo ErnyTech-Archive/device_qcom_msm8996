@@ -282,3 +282,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Set build fingerprint
 PRODUCT_BUILD_PROP_OVERRIDES += \
     BUILD_FINGERPRINT=OnePlus/OnePlus3/OnePlus3:8.0.0/OPR1.170623.032/1808161403:user/release-keys
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    camera.disable_zsl_mode=1
+
+PRODUCT_PROPERTY_OVERRIDES += rild.libpath=/system/vendor/lib64/libril-qc-qmi-1.so

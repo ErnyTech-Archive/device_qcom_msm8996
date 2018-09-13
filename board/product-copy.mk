@@ -1,34 +1,15 @@
 # video seccomp policy files
-PRODUCT_COPY_FILES += \
-    device/qcom/msm8996/seccomp/mediacodec-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
-    device/qcom/msm8996/seccomp/mediaextractor-seccomp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediaextractor.policy
+$(call inherit-product, device/qcom/msm8996/seccomp/seccomp.mk)
+
+# etc files
+$(call inherit-product, device/qcom/msm8996/etc/etc.mk)
 
 ifeq ($(TARGET_ENABLE_QC_AV_ENHANCEMENTS), true)
-PRODUCT_COPY_FILES += \
-    device/qcom/msm8996/media/media_profiles.xml:system/etc/media_profiles.xml \
-    device/qcom/msm8996/media/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_vendor.xml \
-    device/qcom/msm8996/media/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
-    device/qcom/msm8996/media/media_codecs_vendor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_vendor.xml \
-    device/qcom/msm8996/media/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml \
-    device/qcom/msm8996/media/media_codecs_vendor_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_vendor_audio.xml
-endif  #TARGET_ENABLE_QC_AV_ENHANCEMENTS
-
-
-PRODUCT_COPY_FILES += device/qcom/msm8996/etc/whitelistedapps.xml:system/etc/whitelistedapps.xml \
-                      device/qcom/msm8996/etc/gamedwhitelist.xml:system/etc/gamedwhitelist.xml
-                      
-# WLAN driver configuration files
-PRODUCT_COPY_FILES += \
-    device/qcom/msm8996/etc/wifi/WCNSS_qcom_cfg.ini:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/WCNSS_qcom_cfg.ini
-
-# MIDI feature
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.software.midi.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.midi.xml
-    
+	$(call inherit-product, device/qcom/msm8996/media/media.mk)
+endif 
 
 # Sensor HAL conf file
-PRODUCT_COPY_FILES += \
-    device/qcom/msm8996/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
+$(call inherit-product, device/qcom/msm8996/sensors/sensors.mk)
 
 # VB xml
 PRODUCT_COPY_FILES += \
@@ -56,14 +37,6 @@ PRODUCT_COPY_FILES += \
 # High performance VR feature
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.vr.high_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.vr.high_performance.xml
-
-# MSM IRQ Balancer configuration file
-PRODUCT_COPY_FILES += \
-    device/qcom/msm8996/etc/msm_irqbalance.conf:$(TARGET_COPY_OUT_VENDOR)/etc/msm_irqbalance.conf
-    
-# Powerhint configuration file
-PRODUCT_COPY_FILES += \
-    device/qcom/msm8996/etc/powerhint.xml:system/etc/powerhint.xml
     
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
