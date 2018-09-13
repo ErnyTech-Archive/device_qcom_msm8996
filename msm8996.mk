@@ -1,6 +1,6 @@
-$(call inherit-product, device/qcom/msm8998/board/device.mk)
-$(call inherit-product, device/qcom/msm8998/board/product-packages.mk)
-$(call inherit-product, device/qcom/msm8998/board/product-copy.mk)
+$(call inherit-product, device/qcom/msm8996/board/device.mk)
+$(call inherit-product, device/qcom/msm8996/board/product-packages.mk)
+$(call inherit-product, device/qcom/msm8996/board/product-copy.mk)
 
 PRODUCT_NAME := msm8996
 PRODUCT_DEVICE := msm8996
